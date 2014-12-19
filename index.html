@@ -1,0 +1,79 @@
+<!doctype html>
+<html lang="en-US" ng-app="myApp">
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <script src="//maps.googleapis.com/maps/api/js?sensor=false"></script>
+  <link rel="stylesheet" href="bower_components/bootstrap/dist/css/bootstrap.css">
+  <link rel="stylesheet" href="stylesheets/main.css">
+  <title>GeoMarker Roulette</title>
+</head>
+<body>
+  <h1> GeoMarker Roulette </h1>
+  <h2> (Eastern Edition) </h2>
+
+  <div class="container" ng-controller="MapController as mc">
+
+  <div class ="map">
+    <ui-gmap-google-map center="map.center" zoom="map.zoom" options="options">
+      <ui-gmap-marker idkey="marker.id" coords="marker.coords" options="marker.options" icon="marker.icon">
+        <ui-gmap-window isIconVisibleOnClick="true">
+          <p>Tired of Guessing, eh? It's {{marker.coords}}</p>
+        </ui-gmap-window>
+      </ui-gmap-marker>
+
+      <ui-gmap-marker ng-repeat="(markerId, list) in mc.Marker"
+              coords="list" idkey="markerId">
+        <ui-gmap-window isIconVisibleOnClick="true">
+          <p>Lat:{{list.latitude}} Long:{{list.longitude}}</p>
+        </ui-gmap-window>
+      </ui-gmap-marker>
+
+    </ui-gmap-google-map>
+  </div>
+
+  <div class ="table">
+    <h4> A Gamble in Space! </h4>
+    <h5> So here is the idea. A target marker is randomly generated on the map (most of the time). Your guesses are in clickable red markers. When you tire of guessing (which you surely will), just click on the target marker to find the coordinates. Use the map scroll options to find all your markers </h5>
+    <form name="markerForm" ng-submit="markerForm.$valid && mc.addNewMarker()" novalidate>
+      <div>
+        <label for="Latitude">Guess My Latitude (0 - 90):</label>
+        <input class="latitude" id="latitude" type="number" ng-model = "mc.newMarker.latitude" required>
+      </div>
+      <div>
+        <label for="Longitude">Guess My Longitude (0-180):</label>
+        <input class="longitude" id="longitude" type="number" ng-model = "mc.newMarker.longitude" required>
+      </div>
+      <br>
+      <input type="submit" class="btn btn-success" value="Add Marker" ng-class="{disabled: markerForm.$invalid}"/>
+    </form>
+    <br>
+    <h5> Here's a few guesses to get you started. </h5>
+    <table>
+      <tr>
+        <th>Your Latitude Guesses</th>
+        <th>Your Longitude Guesses</th>
+        <th> Delete </th>
+      </tr>
+      <tr ng-repeat="(markerId, list) in mc.Marker">
+        <td>{{list.latitude}}</td>
+        <td>{{list.longitude}}</td>
+        <td><button class="btn btn-danger" ng-click="mc.deleteMarker(markerId)">Delete</button></td>
+      </tr>
+    </table>
+  </div>
+
+  </div>
+  <script src="https://cdn.firebase.com/js/client/2.0.6/firebase.js"></script>
+  <script src="bower_components/jquery/dist/jquery.js"></script>
+  <script src="bower_components/bootstrap/dist/js/bootstrap.js"></script>
+  <script src="bower_components/angular/angular.js"></script>
+  <script src="bower_components/angular-google-maps/dist/angular-google-maps.js"></script>
+  <script src="bower_components/angular-animate/angular-animate.js"></script>
+  <script src="bower_components/angular-strap/dist/angular-strap.min.js"></script>
+  <script src="bower_components/angular-strap/dist/angular-strap.tpl.min.js"></script>
+  <script src="bower_components/lodash/dist/lodash.js"></script>
+  <script src="scripts/main.js"></script>
+</body>
+</html>

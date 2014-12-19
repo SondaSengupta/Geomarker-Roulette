@@ -1,0 +1,23 @@
+.angular-google-map-container {
+  height: 500px;
+  }
+
+h1, h2 {
+  text-align: center;
+  margin: 5px;
+}
+
+p {
+  padding: 15px;
+  text-align: center;
+}
+
+.map {
+  width: 60%;
+  float: right;
+}
+
+.table{
+  width: 35%;
+  float: left;
+}
